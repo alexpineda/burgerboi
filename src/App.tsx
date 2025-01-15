@@ -9,6 +9,7 @@ import {
   ChevronRight,
   MoveDown,
   MoveUp,
+  Github,
 } from "lucide-react";
 
 interface Project {
@@ -129,9 +130,20 @@ function App() {
           <h1 className="text-4xl font-bold text-amber-800 mb-2">
             🍔 Burger Boi
           </h1>
-          <p className="text-amber-700">
-            Track your project progress, one bite at a time!
-          </p>
+          <div className="flex items-center justify-center gap-2">
+            <p className="text-amber-700">
+              Track your project progress, one bite at a time!
+            </p>
+            <a
+              href="https://github.com/alexpineda/burgerboi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-700 hover:text-amber-900 transition-colors"
+              title="View on GitHub"
+            >
+              <Github size={20} />
+            </a>
+          </div>
         </header>
 
         <form onSubmit={addProject} className="mb-8 flex gap-2">

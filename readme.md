@@ -37,4 +37,4 @@ npm run dev
 MIT
 
 ---
-Made with ♥️ for the beautifully chaotic minds
+Made with ♥️ for the beautifully chaotic minds [@weloveoov](https://weloveoov.com)
