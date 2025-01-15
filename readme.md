@@ -2,6 +2,9 @@
 
 A delightfully chaotic project tracker for ADHD minds that love to bounce between tasks. Built with React + Vite.
 
+![CleanShot 2025-01-14 at 22 01 02](https://github.com/user-attachments/assets/95c12cc7-eb2e-4f89-931b-5ca63a75e209)
+
+
 ## ✨ Features
 
 - Local storage for persistence
