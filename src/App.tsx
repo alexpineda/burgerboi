@@ -11,6 +11,7 @@ import {
   Archive,
   ChevronUpCircle,
   ChevronDownCircle,
+  ExternalLink,
 } from "lucide-react";
 
 interface Project {
@@ -37,7 +38,7 @@ function App() {
   };
 
   const collapseAll = () => {
-    const updated = projects.map(p => ({ ...p, collapsed: true }));
+    const updated = projects.map((p) => ({ ...p, collapsed: true }));
     saveProjects(updated);
   };
 
@@ -182,7 +183,7 @@ function App() {
           </button>
         </form>
 
-        <div className="bg-white rounded-xl shadow-lg ">
+        <div className="projects-container bg-white rounded-xl shadow-lg ">
           {projects.filter((p) => !p.archived).length === 0 ? (
             <div className="p-8 text-center text-gray-500">
               No projects yet. Add your first project above!
@@ -197,15 +198,21 @@ function App() {
                       key={project.id}
                       className="flex items-center justify-between p-4 hover:bg-amber-50 transition-colors"
                     >
-                      <div 
-                        className="flex-1 min-w-0 cursor-pointer" 
+                      <div
+                        className="flex-1 min-w-0 cursor-pointer"
                         onClick={(e) => {
-                          if (!(e.target as HTMLElement).closest('button') && !(e.target as HTMLElement).closest('textarea')) {
+                          if (
+                            !(e.target as HTMLElement).closest("button") &&
+                            !(e.target as HTMLElement).closest("textarea")
+                          ) {
                             toggleCollapse(project.id);
                           }
                         }}
                         onDoubleClick={(e) => {
-                          if (!(e.target as HTMLElement).closest('button') && !(e.target as HTMLElement).closest('textarea')) {
+                          if (
+                            !(e.target as HTMLElement).closest("button") &&
+                            !(e.target as HTMLElement).closest("textarea")
+                          ) {
                             collapseAll();
                           }
                         }}
@@ -228,8 +235,55 @@ function App() {
                             )}
                           </button>
                           <div className="flex items-center gap-2">
-                            <h3 className="font-medium text-gray-900 truncate">
+                            <h3 className="font-medium text-gray-900 truncate group flex items-center gap-1 relative">
                               {project.name}
+                              <div className="group flex items-center gap-1">
+                                <button
+                                  onClick={() => {
+                                    window.open(
+                                      `https://www.mindkiwi.com?task=${encodeURIComponent(
+                                        project.name
+                                      )}`,
+                                      "_blank"
+                                    );
+                                  }}
+                                  className="opacity-0 group-hover:opacity-100 inline-flex items-center transition-opacity"
+                                  popoverTarget={`popover-${project.id}`}
+                                  onPointerEnter={() => {
+                                    const popover = document.getElementById(
+                                      `popover-${project.id}`
+                                    );
+                                    popover?.showPopover();
+                                  }}
+                                  onPointerLeave={() => {
+                                    const popover = document.getElementById(
+                                      `popover-${project.id}`
+                                    );
+                                    popover?.hidePopover();
+                                  }}
+                                  style={{
+                                    ["anchor-name" as string]: `--popover-${project.id}`,
+                                  } as React.CSSProperties}
+                                >
+                                  <ExternalLink
+                                    size={14}
+                                    className="text-amber-400 hover:text-amber-600"
+                                  />
+                                </button>
+
+                                <div
+                                  id={`popover-${project.id}`}
+                                  popover="auto"
+                                  className="margin-0 absolute inset-auto bg-amber-800 text-white text-xs px-2 py-1 rounded shadow-lg whitespace-nowrap border-0"
+                                  style={{
+                                    ["position-anchor" as string]: `--popover-${project.id}`,
+                                    top: "anchor(bottom)",
+                                    left: "anchor(right)",
+                                  } as React.CSSProperties}
+                                >
+                                  Focus on this with MindKiwi 🥝
+                                </div>
+                              </div>
                             </h3>
                             {project.collapsed && (
                               <span className="flex items-center gap-1 text-amber-600">
@@ -281,25 +335,40 @@ function App() {
                       <div className="flex items-center gap-1 ml-4">
                         {project.collapsed ? (
                           <>
-                              <button
-                                onClick={() => moveUp(project.id)}
-                                className={`p-2 hover:bg-amber-100 rounded-lg transition-colors ${index === 0 ? 'opacity-50 cursor-not-allowed hover:bg-transparent' : ''}`}
-                                title="Move up"
-                                disabled={index === 0}
-                              >
-                                <ChevronUpCircle size={20} className="text-amber-700" />
-                              </button>
-                              <button
-                                onClick={() => moveDown(project.id)}
-                                className={`p-2 hover:bg-amber-100 rounded-lg transition-colors ${index === projects.filter(p => !p.archived).length - 1 ? 'opacity-50 cursor-not-allowed hover:bg-transparent' : ''}`}
-                                title="Move down"
-                                disabled={index === projects.filter(p => !p.archived).length - 1}
-                              >
-                                <ChevronDownCircle
-                                  size={20}
-                                  className="text-amber-700"
-                                />
-                              </button>
+                            <button
+                              onClick={() => moveUp(project.id)}
+                              className={`p-2 hover:bg-amber-100 rounded-lg transition-colors ${
+                                index === 0
+                                  ? "opacity-50 cursor-not-allowed hover:bg-transparent"
+                                  : ""
+                              }`}
+                              title="Move up"
+                              disabled={index === 0}
+                            >
+                              <ChevronUpCircle
+                                size={20}
+                                className="text-amber-700"
+                              />
+                            </button>
+                            <button
+                              onClick={() => moveDown(project.id)}
+                              className={`p-2 hover:bg-amber-100 rounded-lg transition-colors ${
+                                index ===
+                                projects.filter((p) => !p.archived).length - 1
+                                  ? "opacity-50 cursor-not-allowed hover:bg-transparent"
+                                  : ""
+                              }`}
+                              title="Move down"
+                              disabled={
+                                index ===
+                                projects.filter((p) => !p.archived).length - 1
+                              }
+                            >
+                              <ChevronDownCircle
+                                size={20}
+                                className="text-amber-700"
+                              />
+                            </button>
                           </>
                         ) : (
                           <>
@@ -394,7 +463,9 @@ function App() {
                               }
                               return p;
                             });
-                            if (updated.filter(p => p.archived).length === 0) {
+                            if (
+                              updated.filter((p) => p.archived).length === 0
+                            ) {
                               setShowArchived(false);
                             }
                             saveProjects(updated);
