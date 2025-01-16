@@ -195,7 +195,14 @@ function App() {
                       key={project.id}
                       className="flex items-center justify-between p-4 hover:bg-amber-50 transition-colors"
                     >
-                      <div className="flex-1 min-w-0">
+                      <div 
+                        className="flex-1 min-w-0 cursor-pointer" 
+                        onClick={(e) => {
+                          if (!(e.target as HTMLElement).closest('button')) {
+                            toggleCollapse(project.id);
+                          }
+                        }}
+                      >
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => toggleCollapse(project.id)}
