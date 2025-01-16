@@ -25,11 +25,8 @@ interface Project {
 function App() {
   const [projects, setProjects] = React.useState<Project[]>(() => {
     const saved = localStorage.getItem("burgerBoi");
-    const parsed = saved ? JSON.parse(saved) : [];
-    return parsed.map((p: Omit<Project, "archived">) => ({
-      ...p,
-      archived: false,
-    }));
+    if (!saved) return [];
+    return JSON.parse(saved);
   });
   const [newProject, setNewProject] = React.useState("");
   const [showArchived, setShowArchived] = React.useState(false);
@@ -37,6 +34,11 @@ function App() {
   const saveProjects = (updatedProjects: Project[]) => {
     localStorage.setItem("burgerBoi", JSON.stringify(updatedProjects));
     setProjects(updatedProjects);
+  };
+
+  const collapseAll = () => {
+    const updated = projects.map(p => ({ ...p, collapsed: true }));
+    saveProjects(updated);
   };
 
   const addProject = (e: React.FormEvent) => {
@@ -200,6 +202,11 @@ function App() {
                         onClick={(e) => {
                           if (!(e.target as HTMLElement).closest('button')) {
                             toggleCollapse(project.id);
+                          }
+                        }}
+                        onDoubleClick={(e) => {
+                          if (!(e.target as HTMLElement).closest('button')) {
+                            collapseAll();
                           }
                         }}
                       >
