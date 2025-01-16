@@ -281,27 +281,25 @@ function App() {
                       <div className="flex items-center gap-1 ml-4">
                         {project.collapsed ? (
                           <>
-                            {index !== 0 && (
                               <button
                                 onClick={() => moveUp(project.id)}
-                                className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
+                                className={`p-2 hover:bg-amber-100 rounded-lg transition-colors ${index === 0 ? 'opacity-50 cursor-not-allowed hover:bg-transparent' : ''}`}
                                 title="Move up"
+                                disabled={index === 0}
                               >
                                 <ChevronUpCircle size={20} className="text-amber-700" />
                               </button>
-                            )}
-                            {index !== projects.filter(p => !p.archived).length - 1 && (
                               <button
                                 onClick={() => moveDown(project.id)}
-                                className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
+                                className={`p-2 hover:bg-amber-100 rounded-lg transition-colors ${index === projects.filter(p => !p.archived).length - 1 ? 'opacity-50 cursor-not-allowed hover:bg-transparent' : ''}`}
                                 title="Move down"
+                                disabled={index === projects.filter(p => !p.archived).length - 1}
                               >
                                 <ChevronDownCircle
                                   size={20}
                                   className="text-amber-700"
                                 />
                               </button>
-                            )}
                           </>
                         ) : (
                           <>
