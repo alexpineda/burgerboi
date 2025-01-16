@@ -9,7 +9,6 @@ import {
   ChevronRight,
   Github,
   Archive,
-  ChevronUp,
   ChevronUpCircle,
   ChevronDownCircle,
 } from "lucide-react";
@@ -191,7 +190,7 @@ function App() {
               <div className="divide-y divide-amber-100">
                 {projects
                   .filter((p) => !p.archived)
-                  .map((project) => (
+                  .map((project, index) => (
                     <div
                       key={project.id}
                       className="flex items-center justify-between p-4 hover:bg-amber-50 transition-colors"
@@ -268,23 +267,27 @@ function App() {
                       <div className="flex items-center gap-1 ml-4">
                         {project.collapsed ? (
                           <>
-                            <button
-                              onClick={() => moveUp(project.id)}
-                              className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
-                              title="Move up"
-                            >
-                              <ChevronUpCircle size={20} className="text-amber-700" />
-                            </button>
-                            <button
-                              onClick={() => moveDown(project.id)}
-                              className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
-                              title="Move down"
-                            >
-                              <ChevronDownCircle
-                                size={20}
-                                className="text-amber-700"
-                              />
-                            </button>
+                            {index !== 0 && (
+                              <button
+                                onClick={() => moveUp(project.id)}
+                                className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
+                                title="Move up"
+                              >
+                                <ChevronUpCircle size={20} className="text-amber-700" />
+                              </button>
+                            )}
+                            {index !== projects.filter(p => !p.archived).length - 1 && (
+                              <button
+                                onClick={() => moveDown(project.id)}
+                                className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
+                                title="Move down"
+                              >
+                                <ChevronDownCircle
+                                  size={20}
+                                  className="text-amber-700"
+                                />
+                              </button>
+                            )}
                           </>
                         ) : (
                           <>
