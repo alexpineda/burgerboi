@@ -200,12 +200,12 @@ function App() {
                       <div 
                         className="flex-1 min-w-0 cursor-pointer" 
                         onClick={(e) => {
-                          if (!(e.target as HTMLElement).closest('button')) {
+                          if (!(e.target as HTMLElement).closest('button') && !(e.target as HTMLElement).closest('textarea')) {
                             toggleCollapse(project.id);
                           }
                         }}
                         onDoubleClick={(e) => {
-                          if (!(e.target as HTMLElement).closest('button')) {
+                          if (!(e.target as HTMLElement).closest('button') && !(e.target as HTMLElement).closest('textarea')) {
                             collapseAll();
                           }
                         }}
